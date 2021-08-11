@@ -1,5 +1,6 @@
 # virus
 this will make a python virus and this is the source code 
+requires python
 <h1>setup</h1>
 run setup.bat in folder it will install all the stuff and thats it 
 you can open the app in vb or the packaged version
